@@ -1,0 +1,6 @@
+name: Timeout
+version: 0.1
+main: me.agblacky.timeout.Timeout
+api-version: 1.20
+description: This Plugin sets a daily time limit for each player
+author: agblacky
