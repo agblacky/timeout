@@ -1,5 +1,6 @@
 package me.agblacky.timeout;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
@@ -15,10 +16,14 @@ public class RunSchedular {
 
     public static void runSchedular(LocalDateTime joinTime, Player p) {
         playerdata.put(p.getName(), joinTime);
-        timer.schedule(() -> kickPlayer(p), 10, SECONDS);
+        //Start Timer
+        timer.schedule(() -> kickPlayer(p), 10, SECONDS); //Make it adjustable via command
+
     }
 
     private static Runnable kickPlayer(Player p) {
-        p.ban("Zeit ausgelaufen", Duration.ofDays(1), "String 2");
+        Bukkit.broadcastMessage("Time's over");
+        //p.ban("Zeit ausgelaufen", Duration.ofDays(1), "String 2");
+        return null;
     }
 }
