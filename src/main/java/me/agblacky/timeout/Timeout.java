@@ -15,6 +15,7 @@ public class Timeout extends JavaPlugin {
         //TODO Write to disk in case of failure
         playerdata = new Hashtable<>();
         excludedPlayers = new String[]{};
+        //Register all Events
         getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
         getLogger().info("Timeout Plugin loaded");

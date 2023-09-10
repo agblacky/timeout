@@ -1,5 +1,6 @@
 package me.agblacky.timeout;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,15 +17,22 @@ public class ConnectionListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         //event.setJoinMessage("Player " + event.getPlayer().getName() + " has joined!");
-        //Get Player and current time and start timer
+        //Get Gamemode
         Player p = event.getPlayer();
+        if (p.getGameMode() == GameMode.SPECTATOR) {
+            return;
+        }
         if (playerdata.get(p.getName()) == null) {
+            //Get Player and current time and start timer
             LocalDateTime now = LocalDateTime.now();
-            runSchedular(playerdata, now, p);
+            playerdata.put(p.getName(), now);
+            //TODO Write to disk in case of failure
+            runSchedular(playerdata, p, 10);
         }
     }
+
     @EventHandler
-    public void onPlayerDisconnect(PlayerQuitEvent event){
+    public void onPlayerDisconnect(PlayerQuitEvent event) {
         Player p = event.getPlayer();
         //event.setQuitMessage(p.getName()+"'s time run out.");
         event.setQuitMessage("");
