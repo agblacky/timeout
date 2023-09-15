@@ -7,10 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.time.LocalDateTime;
-
-import static me.agblacky.timeout.RunSchedular.runSchedular;
-import static me.agblacky.timeout.Timeout.playerdata;
+import static me.agblacky.timeout.Timeout.playerData;
 
 public class ConnectionListener implements Listener {
 
@@ -22,19 +19,18 @@ public class ConnectionListener implements Listener {
         if (p.getGameMode() == GameMode.SPECTATOR) {
             return;
         }
-        if (playerdata.get(p.getName()) == null) {
+        //Only start new timer if there is no existing one
+        if (playerData.get(p.getName()) == null) {
+            SchedulerTimer joinTimer = new SchedulerTimer(p, 10);
             //Get Player and current time and start timer
-            LocalDateTime now = LocalDateTime.now();
-            playerdata.put(p.getName(), now);
-            //TODO Write to disk in case of failure
-            runSchedular(playerdata, p, 10);
+            playerData.put(p.getName(),joinTimer);
+            joinTimer.runSchedular();
         }
     }
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent event) {
-        Player p = event.getPlayer();
-        //event.setQuitMessage(p.getName()+"'s time run out.");
+        //Player p = event.getPlayer();
         event.setQuitMessage("");
     }
 }

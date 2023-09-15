@@ -2,19 +2,21 @@ package me.agblacky.timeout;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.time.LocalDateTime;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class Timeout extends JavaPlugin {
-    public static Dictionary<String, LocalDateTime> playerdata;
-    public static String[] excludedPlayers; //Only if the player won't get banned
-
+    //TODO lock access to playerData when it's currently being changed (ConcurrentHashMap?)
+    public static final HashMap<String, SchedulerTimer> playerData = new HashMap<>();
+    public static final ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
     @Override
     public void onEnable() {
-        //TODO Write to disk in case of failure
-        playerdata = new Hashtable<>();
-        excludedPlayers = new String[]{};
+        //TODO Write to disk in case of failure when changed
+        //TODO Errorhandling
+        //TODO Logging where useful
+        //TODO follow Java naming conventions
+        //TODO add commands to set timers
         //Register all Events
         getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
