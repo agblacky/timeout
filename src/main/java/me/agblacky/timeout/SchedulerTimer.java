@@ -25,26 +25,25 @@ public class SchedulerTimer {
 
     public void runSchedular() {
         //Start Timer
-        try{
+        try {
             //TODO Will always go to inform function, even on damage
-            timer.schedule(this::informPlayers, time, SECONDS);
-        }
-        catch(Exception e){
+            this.future = timer.schedule(this::informPlayers, time, SECONDS);
+        } catch (Exception e) {
             System.out.println(e);
-        }
-        finally{
-            //Shut down when not used anymore
-            timer.shutdown();
         }
 
     }
 
     private Runnable informPlayers() {
         Bukkit.broadcastMessage("Player " + p.getName() + "'s time limit reached in 5 minutes");
-        //TODO Bug:Function will not be called anymore?
-        this.future = timer.schedule(this::kickPlayer, 5, SECONDS);
+        scheduleKick(5);
         return null;
     }
+
+    public void scheduleKick(int time) {
+        this.future = timer.schedule(this::kickPlayer, time, SECONDS);
+    }
+
     private Runnable kickPlayer() {
         //Define Weekend
         String[] weekendDays = {"SATURDAY", "SUNDAY"};

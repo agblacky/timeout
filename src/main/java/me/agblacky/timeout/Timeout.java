@@ -9,7 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public class Timeout extends JavaPlugin {
     //TODO lock access to playerData when it's currently being changed (ConcurrentHashMap?)
     public static final HashMap<String, SchedulerTimer> playerData = new HashMap<>();
-    public static final ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
+    public static final ScheduledExecutorService timer = Executors.newScheduledThreadPool(2);
     @Override
     public void onEnable() {
         //TODO Write to disk in case of failure when changed

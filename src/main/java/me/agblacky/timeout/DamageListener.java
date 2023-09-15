@@ -18,14 +18,17 @@ public class DamageListener implements Listener {
             //Get Timer and restart it with another time
             SchedulerTimer fightTimer = playerData.get(p.getName());
             fightTimer.future.cancel(true);
-            fightTimer.time = 10;
-            fightTimer.runSchedular();
+            //TODO only when the time has run out
+            fightTimer.scheduleKick(5);
         }
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player p = event.getEntity().getPlayer();
+        //event.setDeathMessage("Player" + p.getName() + "died");
+        SchedulerTimer fightTimer = playerData.get(p.getName());
+        fightTimer.future.cancel(true);
         p.setGameMode(GameMode.SPECTATOR);
     }
 }
