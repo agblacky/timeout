@@ -1,5 +1,6 @@
 package me.agblacky.timeout;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -8,16 +9,19 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class Timeout extends JavaPlugin {
     //TODO lock access to playerData when it's currently being changed (ConcurrentHashMap?)
+    public static Plugin plugin;
     public static final HashMap<String, SchedulerTimer> playerData = new HashMap<>();
     public static final ScheduledExecutorService timer = Executors.newScheduledThreadPool(2);
+
     @Override
     public void onEnable() {
-        //TODO Write to disk in case of failure when changed
-        //TODO Errorhandling
+        //TODO Write to disk in case of server failure
+        //TODO Error handling
         //TODO Logging where useful
         //TODO follow Java naming conventions
         //TODO add commands to set timers
         //Register all Events
+        plugin = this;
         getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
         getLogger().info("Timeout Plugin loaded");

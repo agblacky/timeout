@@ -21,10 +21,10 @@ public class ConnectionListener implements Listener {
         }
         //Only start new timer if there is no existing one
         if (playerData.get(p.getName()) == null) {
-            SchedulerTimer joinTimer = new SchedulerTimer(p, 10);
+            SchedulerTimer joinTimer = new SchedulerTimer(p, 30);
             //Get Player and current time and start timer
             playerData.put(p.getName(),joinTimer);
-            joinTimer.runSchedular();
+            joinTimer.runScheduler();
         }
     }
 

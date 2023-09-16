@@ -7,19 +7,26 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.time.LocalTime;
+
+import static me.agblacky.timeout.MetaData.setMetadata;
 import static me.agblacky.timeout.Timeout.playerData;
 
 
 public class DamageListener implements Listener {
-
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player p) {
-            //Get Timer and restart it with another time
-            SchedulerTimer fightTimer = playerData.get(p.getName());
-            fightTimer.future.cancel(true);
-            //TODO only when the time has run out
-            fightTimer.scheduleKick(5);
+            try {
+                //Get Timer and restart it with another time
+                setMetadata(p, "lasthit", LocalTime.now());
+                //SchedulerTimer fightTimer = playerData.get(p.getName());
+                //fightTimer.future.cancel(true);
+                //TODO only when the time has run out
+                //fightTimer.scheduleKick(5);
+            } catch (Exception e) {
+                //Log
+            }
         }
     }
 
