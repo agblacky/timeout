@@ -21,6 +21,7 @@ public class SchedulerTimer {
     public int time;
     public LocalTime joinedAt;
     //Define Weekend
+    //TODO COMPLETE CODE REFACTOR AND CLEANUP
     protected String[] weekendDays = {"SATURDAY", "SUNDAY"};
 
     public SchedulerTimer(Player p, int time) {
