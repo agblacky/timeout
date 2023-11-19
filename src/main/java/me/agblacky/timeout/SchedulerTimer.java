@@ -3,7 +3,6 @@ package me.agblacky.timeout;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -23,6 +22,8 @@ public class SchedulerTimer {
     //Define Weekend
     //TODO COMPLETE CODE REFACTOR AND CLEANUP
     protected String[] weekendDays = {"SATURDAY", "SUNDAY"};
+    public static int playTime = 30;
+    public static int fightTime = 2;
 
     public SchedulerTimer(Player p, int time) {
         this.p = p;
@@ -35,14 +36,14 @@ public class SchedulerTimer {
         try {
             this.future = timer.schedule(this::informPlayers, time, SECONDS);
         } catch (Exception e) {
-
+            //Log
         }
 
     }
 
     private Runnable informPlayers() {
         Bukkit.broadcastMessage(p.getName() + "'s time limit reached in 30 Seconds");
-        scheduleKick(30);
+        scheduleKick(playTime);
         return null;
     }
 
@@ -54,11 +55,11 @@ public class SchedulerTimer {
         //TODO Compare if directly calling this function from the Damage Event instead of checking for the last damage is cleaner and better performance wise
         LocalTime lasthit = LocalTime.parse(getMetadata(p, "lasthit"));
         //Calculate plus 30 minutes, minus 5 minutes after initial join time to check if the player has received damage in the last 5 minutes
-        //TODO Replace all magic numbers
-        if (joinedAt.plusSeconds(30).isBefore(lasthit)) {
+        //TODO Change Seconds to minutes once done testing
+        if (joinedAt.plusSeconds(playTime).isBefore(lasthit)) {
             //offset joinedAt time so that it will take the current time into account
-            joinedAt=joinedAt.plusSeconds(5);
-            scheduleKick(5);
+            joinedAt = joinedAt.plusSeconds(fightTime);
+            scheduleKick(fightTime);
             return null;
         }
         //Calculate next unban date
@@ -70,7 +71,7 @@ public class SchedulerTimer {
         } else {
             unbanDateTime = unbanDateTime.withHour(14);
         }
-        Bukkit.broadcastMessage(p.getName()+" will be unbanned at " + unbanDateTime);
+        Bukkit.broadcastMessage(p.getName() + " will be unbanned at " + unbanDateTime);
         //Ban Player and remove them from dictionary so that the timer resets the next time the player joins
         //p.ban("Zeit ausgelaufen", Duration.ofDays(1), "System");
         playerData.remove(this.p.getName());

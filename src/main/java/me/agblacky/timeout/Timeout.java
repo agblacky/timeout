@@ -3,15 +3,15 @@ package me.agblacky.timeout;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Timeout extends JavaPlugin {
-    //TODO lock access to playerData when it's currently being changed (ConcurrentHashMap?)
     public static Plugin plugin;
-    public static final HashMap<String, SchedulerTimer> playerData = new HashMap<>();
+    public static final ConcurrentHashMap<String, SchedulerTimer> playerData = new ConcurrentHashMap<>();
     public static final ScheduledExecutorService timer = Executors.newScheduledThreadPool(2);
+    public static Boolean timerActive;
 
     @Override
     public void onEnable() {
@@ -19,11 +19,13 @@ public class Timeout extends JavaPlugin {
         //TODO Error handling
         //TODO Logging where useful
         //TODO follow Java naming conventions
-        //TODO add commands to set timers
         //Register all Events
         plugin = this;
         getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
+        getCommand("setTimer").setExecutor(new CommandSetTimer());
+        getCommand("setTimerLength").setExecutor(new CommandSetTimerLength());
+        getCommand("setFightLength").setExecutor(new CommandSetFightLength());
         getLogger().info("Timeout Plugin loaded");
     }
 

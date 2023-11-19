@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import static me.agblacky.timeout.Timeout.playerData;
+import static me.agblacky.timeout.Timeout.*;
 
 public class ConnectionListener implements Listener {
 
@@ -16,7 +16,7 @@ public class ConnectionListener implements Listener {
         //event.setJoinMessage("Player " + event.getPlayer().getName() + " has joined!");
         //Get Gamemode
         Player p = event.getPlayer();
-        if (p.getGameMode() == GameMode.SPECTATOR) {
+        if (p.getGameMode() == GameMode.SPECTATOR || !timerActive) {
             return;
         }
         //Only start new timer if there is no existing one

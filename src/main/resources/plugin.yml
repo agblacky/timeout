@@ -4,3 +4,13 @@ main: me.agblacky.timeout.Timeout
 api-version: 1.20
 description: This Plugin sets a daily time limit for each player
 author: agblacky
+commands:
+  setTimer:
+    description: Will activate/deactivate the timer.
+    usage: /<command> on/off
+  setTimerLength:
+    description: Set playing time to x minutes
+    usage: /<command> time
+  setFightLength:
+    description: Set fighting overtime to x minutes
+    usage: /<command> time
